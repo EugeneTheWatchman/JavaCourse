@@ -1,4 +1,6 @@
 package ru.croc.task5;
 
-public class Figure{
+public abstract class Figure{
+    public abstract Figure clone();
+    public abstract Boolean contains(Point point);
 }

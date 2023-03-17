@@ -12,12 +12,16 @@ class Annotation {
     }
 
     public void setSelectedArea(Figure selectedArea) throws Exception {
-        if ( !(selectedArea instanceof Circle || selectedArea instanceof Rectangle) ) {
+        if (!(selectedArea instanceof Circle || selectedArea instanceof Rectangle)) {
             throw new Exception("selectedArea must to be Circle or Rectangle");
             // If you are going to add a new Figure extend, loot at the override of the toString method too
         }
         this.selectedArea = selectedArea;
     }
+    public Figure getSelectedArea() {
+        return this.selectedArea.clone();
+    }
+
     @Override
     public String toString() {
         if (selectedArea instanceof Circle) {
@@ -30,15 +34,6 @@ class Annotation {
                     rect.topRightCorner.x, rect.topRightCorner.y, this.text );
         }
         return null;
-    }
-
-    public static void main(String[] args) throws Exception {
-        Annotation annotation = new Annotation(new Rectangle(), "Прямоугольник");
-        Annotation annotation2 = new Annotation(new Circle(), "Кружок");
-        Annotation annotation1 = new Annotation(new Figure(),"Ошибка");
-        System.out.println(annotation);
-        System.out.println(annotation2);
-        System.out.println(annotation1);
     }
 }
 

@@ -24,4 +24,17 @@ public class Rectangle extends Figure{
     public Rectangle() throws Exception {
         this(new Point(0,0), new Point(100,50));
     }
+
+    public Rectangle clone() {
+        try {
+            return new Rectangle(this.lowerLeftCorner, this.topRightCorner);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Boolean contains(Point point) {
+        return  ((lowerLeftCorner.x <= point.x) && (point.x <= topRightCorner.x)) &&
+                ((lowerLeftCorner.y <= point.y) && (point.y <= topRightCorner.y));
+    }
+
 }

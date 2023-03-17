@@ -15,5 +15,15 @@ class AnnotatedImage {
     public Annotation[] getAnnotations() {
         return this.annotations;
     }
+
+    public Annotation findByPoint(int x, int y) {
+        for (Annotation annotation : annotations) {
+            if (annotation.getSelectedArea().contains(new Point(x,y))) {
+                return annotation;
+            }
+        }
+        return null;
+    }
 }
+
 
