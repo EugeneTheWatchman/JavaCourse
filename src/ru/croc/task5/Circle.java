@@ -1,4 +1,4 @@
-package ru.croc.task4;
+package ru.croc.task5;
 
 public class Circle extends Figure {
     int radius;
