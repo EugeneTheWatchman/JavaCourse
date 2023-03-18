@@ -31,14 +31,5 @@ class Annotation {
         }
         return null;
     }
-
-    public static void main(String[] args) throws Exception {
-        Annotation annotation = new Annotation(new Rectangle(), "Прямоугольник");
-        Annotation annotation2 = new Annotation(new Circle(), "Кружок");
-        Annotation annotation1 = new Annotation(new Figure(),"Ошибка");
-        System.out.println(annotation);
-        System.out.println(annotation2);
-        System.out.println(annotation1);
-    }
 }
 
