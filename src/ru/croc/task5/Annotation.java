@@ -1,11 +1,11 @@
 package ru.croc.task5;
 
-class Annotation {
+class Annotation implements Movable{
     private Figure selectedArea;
-    private String text;
-    public Annotation(Figure selectedArea, String text) throws Exception {
+    private String label;
+    public Annotation(Figure selectedArea, String label) throws Exception {
         this.setSelectedArea(selectedArea);
-        this.text = text;
+        this.label = label;
     }
     public Annotation(Figure selectedArea) throws Exception {
         this(selectedArea,"");
@@ -22,18 +22,27 @@ class Annotation {
         return this.selectedArea.clone();
     }
 
+    public String getLabel() {return this.label; }
+
     @Override
     public String toString() {
         if (selectedArea instanceof Circle) {
-            Circle circle = (Circle) selectedArea;
-            return String.format("C (%s, %s), %s: %s", circle.center.x, circle.center.y,
-                    circle.radius, this.text);
+            Point center = ((Circle) selectedArea).getCenter();
+            int radius = ((Circle) selectedArea).getRadius();
+            return String.format("C (%s, %s), %s: %s", center.x, center.y,
+                    radius, this.label);
         } else if (selectedArea instanceof Rectangle) {
-            Rectangle rect = (Rectangle) selectedArea;
-            return String.format("R (%s, %s), (%s, %s): %s", rect.lowerLeftCorner.x, rect.lowerLeftCorner.y,
-                    rect.topRightCorner.x, rect.topRightCorner.y, this.text );
+            Point lowerLeftCorner = ((Rectangle) selectedArea).getLowerLeftCorner();
+            Point topRightCorner = ((Rectangle) selectedArea).getTopRightCorner();
+            return String.format("R (%s, %s), (%s, %s): %s", lowerLeftCorner.x, lowerLeftCorner.y,
+                    topRightCorner.x, topRightCorner.y, this.label);
         }
         return null;
+    }
+
+    @Override
+    public void move(int dx, int dy) {
+        this.selectedArea.move(dx,dy);
     }
 }
 
