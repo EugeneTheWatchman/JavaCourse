@@ -13,7 +13,7 @@ public class Circle extends Figure {
     }
 
     public Circle() {
-        this(new Point(0,0),0);
+        this(new Point(0, 0), 0);
     }
 
     public Point getCenter() {
@@ -31,11 +31,11 @@ public class Circle extends Figure {
 
     @Override
     public Boolean contains(Point point) {
-        return this.radius >= sqrt( pow(this.center.x - point.x,2) + pow(this.center.y - point.y,2) );
+        return this.radius >= sqrt( pow(this.center.x - point.x, 2) + pow(this.center.y - point.y, 2) );
     }
 
     @Override
     public void move(int dx, int dy) {
-        this.center.move(dx,dy);
+        this.center.move(dx, dy);
     }
 }

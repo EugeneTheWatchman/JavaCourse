@@ -3,12 +3,14 @@ package ru.croc.task5;
 class Annotation implements Movable{
     private Figure selectedArea;
     private String label;
+
     public Annotation(Figure selectedArea, String label) throws Exception {
         this.setSelectedArea(selectedArea);
         this.label = label;
     }
+
     public Annotation(Figure selectedArea) throws Exception {
-        this(selectedArea,"");
+        this(selectedArea, "");
     }
 
     public void setSelectedArea(Figure selectedArea) throws Exception {
@@ -42,7 +44,7 @@ class Annotation implements Movable{
 
     @Override
     public void move(int dx, int dy) {
-        this.selectedArea.move(dx,dy);
+        this.selectedArea.move(dx, dy);
     }
 }
 

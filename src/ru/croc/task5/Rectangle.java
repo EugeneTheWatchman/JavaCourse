@@ -22,7 +22,7 @@ public class Rectangle extends Figure{
     }
 
     public Rectangle() throws Exception {
-        this(new Point(0,0), new Point(100,50));
+        this(new Point(0, 0), new Point(100, 50));
     }
 
     public Point getLowerLeftCorner() {
@@ -50,7 +50,7 @@ public class Rectangle extends Figure{
 
     @Override
     public void move(int dx, int dy) {
-        this.lowerLeftCorner.move(dx,dy);
-        this.topRightCorner.move(dx,dy);
+        this.lowerLeftCorner.move(dx, dy);
+        this.topRightCorner.move(dx, dy);
     }
 }
