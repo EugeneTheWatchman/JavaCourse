@@ -10,6 +10,6 @@ public class Circle extends Figure {
     }
 
     public Circle() {
-        this(new Point(0,0),0);
+        this(new Point(0, 0), 0);
     }
 }

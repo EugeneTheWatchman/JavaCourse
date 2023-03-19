@@ -22,6 +22,6 @@ public class Rectangle extends Figure{
     }
 
     public Rectangle() throws Exception {
-        this(new Point(0,0), new Point(100,50));
+        this(new Point(0, 0), new Point(100, 50));
     }
 }

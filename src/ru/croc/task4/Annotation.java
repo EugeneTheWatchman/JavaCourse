@@ -3,6 +3,7 @@ package ru.croc.task4;
 class Annotation {
     private Figure selectedArea;
     private String text;
+
     public Annotation(Figure selectedArea, String text) throws Exception {
         this.setSelectedArea(selectedArea);
         this.text = text;

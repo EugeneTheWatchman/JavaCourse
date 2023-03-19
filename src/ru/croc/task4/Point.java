@@ -9,6 +9,6 @@ public class Point {
     }
 
     public Point() {
-        this(0,0);
+        this(0, 0);
     }
 }
