@@ -67,13 +67,26 @@ public class ChessPosition {
             return;
         }
 
-        ChessPosition startPosition = ChessPosition.parse(args[0]);
+        ChessPosition startPosition;
+        ChessPosition endPosition;
+
+        try {
+            startPosition = ChessPosition.parse(args[0]);
+        } catch (IllegalPositionException e) {
+            System.out.println(e.toString());
+            return;
+        }
 
         for (int i = 1; i < args.length; i++) {
 
-            ChessPosition endPosition = ChessPosition.parse(args[i]);
+            try {
+                endPosition = ChessPosition.parse(args[i]);
+            } catch (IllegalPositionException e) {
+                System.out.println(e.toString());
+                return;
+            }
 
-            if (!Horse.isPossibleMove(startPosition,endPosition)) {
+            if (!Horse.isPossibleMove(startPosition, endPosition)) {
                 System.out.printf("конь так не ходит: %s -> %s", startPosition, endPosition);
                 return;
             }
