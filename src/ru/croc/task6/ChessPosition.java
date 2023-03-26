@@ -5,7 +5,7 @@ public class ChessPosition {
     private int letterIndex;
     private int numberIndex;
 
-    public static final char[] letters = new char[] {'A','B','C','D','E','F','G','H'}; //new char[] {'a','b','c','d','e','f','g','h'};
+    public static final char[] letters = new char[] {'a','b','c','d','e','f','g','h'};
     public static final char[] numbers = new char[] {'1','2','3','4','5','6','7','8'};
 
     public ChessPosition(int letterIndex, int numberIndex) {
@@ -61,15 +61,25 @@ public class ChessPosition {
     }
 
     public static void main(String[] args) {
-        for (int y = 0; y < 8; y++) {
-            for (int x = 0; x < 8; x++) {
-                ChessPosition p1 = new ChessPosition(x,y);
-                ChessPosition p2 = ChessPosition.parse("Dd");
-                //System.out.print(p1 + "\t");
-                System.out.print(((Horse.isPossibleMove(p1,p2)) ? p1 : 0) + "\t");
-            }
-            System.out.print("\n");
+
+        if (args.length < 2) {
+            System.out.println("Необходимо ввести 2 или больше аргументов,\nпредставляющих из себя наименование шахматных полей");
+            return;
         }
 
+        ChessPosition startPosition = ChessPosition.parse(args[0]);
+
+        for (int i = 1; i < args.length; i++) {
+
+            ChessPosition endPosition = ChessPosition.parse(args[i]);
+
+            if (!Horse.isPossibleMove(startPosition,endPosition)) {
+                System.out.printf("конь так не ходит: %s -> %s", startPosition, endPosition);
+                return;
+            }
+
+            startPosition = endPosition;
+        }
+        System.out.println("OK");
     }
 }
