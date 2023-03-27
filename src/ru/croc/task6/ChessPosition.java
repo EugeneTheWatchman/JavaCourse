@@ -20,12 +20,6 @@ public class ChessPosition {
         if (position.length() != 2) {
             throw new IllegalPositionException("Позиция должна задаваться одной буквой и одной цифрой");
         }
-        //Pattern pattern = Pattern.compile("[a-h][1-8]");
-        //Pattern pattern = Pattern.compile(String.format("[%s][%s]", new String(ChessPosition.letters), new String(ChessPosition.numbers)));
-        /*Matcher matcher = pattern.matcher(position);
-        if (!matcher.matches()) {
-            throw new IllegalPositionException("Позиция должна задаваться буквой от a до h и цифрой от 1 до 8");
-        }*/
         String lettersString = new String(ChessPosition.letters);
         String numbersString = new String(ChessPosition.numbers);
 
