@@ -2,7 +2,7 @@ package ru.croc.task6;
 
 public class IllegalPositionException extends RuntimeException{
 
-    String position;
+    private String position;
 
     public IllegalPositionException(String text, String position) {
         super(String.format(text, position));

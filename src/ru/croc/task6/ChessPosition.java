@@ -2,11 +2,11 @@ package ru.croc.task6;
 
 public class ChessPosition {
 
-    public static final char[] LETTERS = new char[] {'a','b','c','d','e','f','g','h'};
-    public static final char[] NUMBERS = new char[] {'1','2','3','4','5','6','7','8'};
-    static final int MININDEX = 0;
-    static final int MAXLETTERINDEX = LETTERS.length;
-    static final int MAXNUMBERINDEX = NUMBERS.length; // допускаю не квадратную форму доски
+    private static final char[] LETTERS = new char[] {'a','b','c','d','e','f','g','h'};
+    private static final char[] NUMBERS = new char[] {'1','2','3','4','5','6','7','8'};
+    private static final int MININDEX = 0;
+    private static final int MAXLETTERINDEX = LETTERS.length;
+    private static final int MAXNUMBERINDEX = NUMBERS.length; // допускаю не квадратную форму доски
     private int letterIndex;
     private int numberIndex;
 
@@ -52,46 +52,5 @@ public class ChessPosition {
         return String.format("%s%s", ChessPosition.LETTERS[this.letterIndex], ChessPosition.NUMBERS[this.numberIndex]);
     }
 
-    public static void main(String[] args) throws Exception {
 
-        System.out.println(ChessPosition.parse(null));
-
-        if (args.length < 2) {
-            System.out.println("Необходимо ввести 2 или больше аргументов,\nпредставляющих из себя наименование шахматных полей");
-            return;
-        }
-
-        ChessPosition startPosition;
-        ChessPosition endPosition;
-
-        try {
-            startPosition = ChessPosition.parse(args[0]);
-        } catch (IllegalPositionException e) {
-            System.out.println(e);
-            return;
-        }
-
-        for (int i = 1; i < args.length; i++) {
-
-            try {
-                endPosition = ChessPosition.parse(args[i]);
-            } catch (IllegalPositionException e) {
-                System.out.println(e.toString());
-                return;
-            }
-
-            try {
-                if (!Knight.isPossibleMove(startPosition, endPosition)) {
-                    throw new IllegalMoveException(startPosition, endPosition);
-                }
-            } catch (IllegalMoveException e) {
-                System.out.println(e);
-                return;
-            }
-
-
-            startPosition = endPosition;
-        }
-        System.out.println("OK");
-    }
 }
