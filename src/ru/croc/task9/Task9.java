@@ -13,10 +13,18 @@ public class Task9 {
         }
 
         String path = args[0];
-        path = ".\\src\\ru\\croc\\task9";
+        path = "images";//.\\src\\ru\\croc"; //\\task9";
 
-        new LogFilesFinder(new String[] {path});//.getFilesInDirectory(".\\src\\ru\\croc\\task9",".MD");
+        LogFilesFinder logFilesFinder;
+        try {
+            logFilesFinder = new LogFilesFinder(new String[] {path}, new String[] {""});
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
+        for (File file : logFilesFinder.getFiles()) {
+            System.out.println(file.getAbsolutePath());
+        }
     }
 
 

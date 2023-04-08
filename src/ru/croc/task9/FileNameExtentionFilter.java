@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public class FileNameExtentionFilter implements FilenameFilter {
 
-    private String extention;
+    private final String extention;
 
     public FileNameExtentionFilter(String extention) {
         this.extention = extention.toLowerCase();
@@ -14,6 +14,6 @@ public class FileNameExtentionFilter implements FilenameFilter {
 
     @Override
     public boolean accept(File dir, String name) {
-        return name.toLowerCase().endsWith(this.extention);
+        return new File(dir,name).isFile() && name.toLowerCase().endsWith(this.extention);
     }
 }
