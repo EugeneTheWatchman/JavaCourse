@@ -2,39 +2,63 @@ package ru.croc.task9;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LogFilesFinder {
-    private File[] files;
+    private final File[] files;
+    private final String pathsToDirectoryWithLogs;
 
-    public LogFilesFinder(String[] pathsToDirectoriesWithLogs, String[] logFilesExtensions) throws FileNotFoundException {
-        /**
-         * @param   logFilesExtensions
-         *          String array with filename extensions with dots
-         *
-         */
+    private final String[] logFilesExtensions;
+
+    /**
+     *
+     * @param pathsToDirectoryWithLogs String, not null
+     * @param logFilesExtensions String array with filename extensions with dots, not null
+     * @throws FileNotFoundException if directory not found
+     */
+    public LogFilesFinder(String pathsToDirectoryWithLogs, String[] logFilesExtensions) throws FileNotFoundException {
+
+        this.pathsToDirectoryWithLogs = pathsToDirectoryWithLogs;
+        this.logFilesExtensions = logFilesExtensions;
+
         ArrayList<File> files = new ArrayList<File>();
 
-        for (String path : pathsToDirectoriesWithLogs) {
-            for (String acceptableExtension : logFilesExtensions) {
-                files.addAll(List.of(getFilesInDirectoryAndSubdirectiories(path, acceptableExtension)));
-            }
+        for (String acceptableExtension : logFilesExtensions) {
+            files.addAll(List.of(getFilesInDirectoryAndSubdirectiories(pathsToDirectoryWithLogs, acceptableExtension)));
         }
 
         this.files = files.toArray(new File[0]);
     }
 
-    public LogFilesFinder(String[] pathsToDirectoriesWithLogs) throws FileNotFoundException {
-        this(pathsToDirectoriesWithLogs, new String[] {"log","trace"});
+    /**
+     * Search for files with extensions {".log",".trace"}
+     *
+     * @param pathsToDirectoryWithLogs String, not null
+     * @throws FileNotFoundException if directory not found
+     */
+    public LogFilesFinder(String pathsToDirectoryWithLogs) throws FileNotFoundException {
+        this(pathsToDirectoryWithLogs, new String[] {".log",".trace"});
     }
 
     public File[] getFiles() {
         return files;
     }
 
-    public File[] getSubdirectoriesInDirectory (String pathToDirectory) throws FileNotFoundException {
+    public String[] getFilesExtensions() {
+        return logFilesExtensions;
+    }
+
+    public String getPathsToDirectory() {
+        return pathsToDirectoryWithLogs;
+    }
+
+    /**
+     * @param pathToDirectory String, not null
+     * @return Array of subdirs
+     * @throws FileNotFoundException if directory not found
+     */
+    public static File[] getSubdirectoriesInDirectory (String pathToDirectory) throws FileNotFoundException {
         File file = new File(pathToDirectory);
         if(!file.exists()) {
             throw new FileNotFoundException(pathToDirectory + " папка не существует");
@@ -43,7 +67,14 @@ public class LogFilesFinder {
         return file.listFiles(new SubDirectoriesFilter());
     }
 
-    public File[] getFilesInDirectory(String pathToDirectory, String logFilesExtension) throws FileNotFoundException{
+    /**
+     *
+     * @param pathToDirectory String, not null
+     * @param logFilesExtension String, not null
+     * @return Array of files in current dir with current extension
+     * @throws FileNotFoundException if directory not found
+     */
+    public static File[] getFilesInDirectory(String pathToDirectory, String logFilesExtension) throws FileNotFoundException{
         File file = new File(pathToDirectory);
         if(!file.exists()) {
             throw new FileNotFoundException(pathToDirectory + " папка не существует");
@@ -52,7 +83,14 @@ public class LogFilesFinder {
         return file.listFiles(new FileNameExtentionFilter(logFilesExtension));
     }
 
-    public File[] getFilesInDirectoryAndSubdirectiories(String pathToDirectory, String logFilesExtension) throws FileNotFoundException{
+    /**
+     *
+     * @param pathToDirectory String, not null
+     * @param logFilesExtension String, not null
+     * @return Array of files in current dir and subdirs with current extension
+     * @throws FileNotFoundException if directory not found
+     */
+    public static File[] getFilesInDirectoryAndSubdirectiories(String pathToDirectory, String logFilesExtension) throws FileNotFoundException{
         ArrayList<File> files = new ArrayList<File>();
 
         File[] subDirectories = getSubdirectoriesInDirectory(pathToDirectory);
