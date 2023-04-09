@@ -17,7 +17,7 @@ public class Task9 {
         String path = args[0];
 
         ArrayList<StringAndItsBufferedReaderStructure> linesAndReaders = new ArrayList<>(); // объявляем тут, чтобы было видно в блоке finally, где будем закрывать ридеры
-        try (var writer = new FileWriter("src\\ru\\croc\\task9\\logs\\output.txt");
+        try (var writer = new FileWriter(path + "\\output.txt");
              var bufferedWriter = new BufferedWriter(writer)) { // нам понадобится 1 writer, инициализируем его
 
             LogFilesFinder logFilesFinder = new LogFilesFinder(path, new String[] {".log",".trace"}); // объект который при создании находит все файлы в директории и во всех вложенных директориях с заданным расширением
