@@ -11,41 +11,29 @@ public class Task9 {
     public static void main(String[] args) {
 
         if (args.length == 0) {
-            System.out.println("В качестве аргумента командной строки принимает путь к директории, в которой находятся файлы логов");
+            System.out.println("В качестве аргумента командной строки укажите путь к директории, в которой находятся файлы логов");
             return;
-        }
+        } // валидация входных данных
         String path = args[0];
 
-        LogFilesFinder logFilesFinder;
-        try {
-            logFilesFinder = new LogFilesFinder(path, new String[] {".log"});
-        } catch (FileNotFoundException|RuntimeException e) {
-            System.out.println(e);
-            return;
-        }
-
-        ArrayList<StringAndItsBufferedReaderStructure> linesAndReaders = new ArrayList<>();
+        ArrayList<StringAndItsBufferedReaderStructure> linesAndReaders = new ArrayList<>(); // объявляем тут, чтобы было видно в блоке finally, где будем закрывать ридеры
         try (var writer = new FileWriter("src\\ru\\croc\\task9\\logs\\output.txt");
-             var bufferedWriter = new BufferedWriter(writer);) {
+             var bufferedWriter = new BufferedWriter(writer)) { // нам понадобится 1 writer, инициализируем его
 
+            LogFilesFinder logFilesFinder = new LogFilesFinder(path, new String[] {".log",".trace"}); // объект который при создании находит все файлы в директории и во всех вложенных директориях с заданным расширением
 
-            for (File file : logFilesFinder.getFiles()) {
-                BufferedReader reader = getFileReader(file);
-                String line = reader.readLine();
+            linesAndReaders = getLinesAndReaders(logFilesFinder); // пробегаемся по всем найденным файлам и создаём список ридеров и соответсвующих им строк
 
-                var lineAndItsReader = new StringAndItsBufferedReaderStructure(line, reader);
-                linesAndReaders.add(lineAndItsReader);
-            }
-
-            int indexWithEarliesLine = compareLinesByTimeAndGetIdOfTheEarliest(linesAndReaders);
-            while (indexWithEarliesLine >= 0) {
+            int indexWithEarliesLine = compareLinesByTimeAndGetIdOfTheEarliest(linesAndReaders); // вычисляем индекс наиболее ранней строки в логах
+            while (indexWithEarliesLine >= 0) { // в случае не нахождения наиболее ранней строки, индекс будет равен -1
                 var earliestLineAndItsReader = linesAndReaders.get(indexWithEarliesLine);
-                bufferedWriter.append(earliestLineAndItsReader.line);
+
+                bufferedWriter.append(earliestLineAndItsReader.line); // записываем в файл
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
 
-                earliestLineAndItsReader.line = earliestLineAndItsReader.reader.readLine();
-                indexWithEarliesLine = compareLinesByTimeAndGetIdOfTheEarliest(linesAndReaders);
+                earliestLineAndItsReader.line = earliestLineAndItsReader.reader.readLine(); // заместо записанной строки читаем следующую
+                indexWithEarliesLine = compareLinesByTimeAndGetIdOfTheEarliest(linesAndReaders); // вычисляем индекс наиболее ранней строки в логах
             }
 
         } catch (IOException e) {
@@ -63,6 +51,21 @@ public class Task9 {
         }
     }
 
+    public static ArrayList<StringAndItsBufferedReaderStructure> getLinesAndReaders(LogFilesFinder logFilesFinder) throws IOException {
+
+        ArrayList<StringAndItsBufferedReaderStructure> linesAndReaders = new ArrayList<>();
+
+        for (File file : logFilesFinder.getFiles()) { // пробегаемся по всем найденным файлам и создаём список ридеров и соответсвующих им строк
+            BufferedReader reader = getFileReader(file);
+            String line = reader.readLine();
+
+            var lineAndItsReader = new StringAndItsBufferedReaderStructure(line, reader);
+            linesAndReaders.add(lineAndItsReader);
+        }
+
+        return linesAndReaders;
+    }
+
     public static BufferedReader getFileReader(File fileName) throws IOException {
 
         Charset charset = StandardCharsets.UTF_8;
@@ -72,6 +75,9 @@ public class Task9 {
         return new BufferedReader(reader);
     }
 
+    /**
+     * @return index of the first (by time) line, or -1
+     */
     private static int compareLinesByTimeAndGetIdOfTheEarliest(ArrayList<StringAndItsBufferedReaderStructure> lines) {
         long earliestTime = Long.MAX_VALUE;
         int indexOfEarliestLine = -1;
