@@ -62,7 +62,7 @@ public class Task12 {
 
         for (int i = 0; i < numberOfThreads; i++) {
             long min = interval * i;
-            long max = interval * (i + 1) - 1;
+            long max = Math.min(interval * (i + 1) - 1, maxIndex);
 
             threads[i] = new Thread(new HashVavidatorThred(min, max, expectedHash, passWordGenerator));
             threads[i].start();
