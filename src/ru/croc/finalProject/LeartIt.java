@@ -25,11 +25,13 @@ public final class LeartIt {
         Scanner scan = new Scanner(System.in);
         String login = scan.nextLine();
 
-        User userData = logIn(login);
-        isAdmin = userData.isAdministrator;
+        User user = logIn(login);
+        isAdmin = user.isAdministrator;
 
         InsertWordTest test = (InsertWordTest)readTestFromDB(0);
-        runTest(test);
+        boolean success = runTest(test);
+        user.addTest(test.ID, success);
+
     }
 
     private static Test readTestFromDB(long testID) {
