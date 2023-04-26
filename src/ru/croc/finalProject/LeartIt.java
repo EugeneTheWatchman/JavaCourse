@@ -27,14 +27,17 @@ public final class LeartIt {
 
         User userData = logIn(login);
         isAdmin = userData.isAdministrator;
+
+        InsertWordTest test = (InsertWordTest)readTestFromDB(0);
+        runTest(test);
     }
 
-    private Test readTestFromDB(long testID) {
+    private static Test readTestFromDB(long testID) {
         // в базе будут храниться XML файлы?
         // если нет, то читаем данные теста и создаём новый тест
         // если да, то используем InsertWordTest.importFromXML(), только там пока что путь до XML в аргументах
         String description = "Insert a right variant of verb \"be\"";
-        String sentence = "My favorite politician and actor %s Donald Trump";
+        String sentence = "My favorite politician and actor ___ Donald Trump";
         String[] variantsToInsert = new String[] {"is", "are", "were", "was"};
 
         Test test = new InsertWordTest(description, sentence, variantsToInsert);
@@ -44,7 +47,7 @@ public final class LeartIt {
     }
 
     // для других тестов переопределяются другие типы, т.к. заранее не знаю их структру
-    private boolean runTest(InsertWordTest test) {
+    private static boolean runTest(InsertWordTest test) {
         System.out.println(test.description);
         System.out.println(test.sentence);
         System.out.println("Variants:");
